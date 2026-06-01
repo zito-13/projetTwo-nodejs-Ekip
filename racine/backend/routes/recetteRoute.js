@@ -1,72 +1,85 @@
-// recettesRouter.js
-// ── Imports ───────────────────────────────────────────────
-const express = require('express');        // Charge le framework Express
-const router  = express.Router();         // Crée un routeur Express isolé
-const recettes = require('../models/recetteModel'); // Importe le modèle Mongoose
+const express  = require('express');
+const router   = express.Router();
+const Recette  = require('../models/recetteModel');
+const User     = require('../models/User'); // Nécessaire pour valider l'auteur
 
-// ── GET / — Récupère toutes les recettes ─────────────────
-router.get('/', async (req, res) => {   // Route GET sur « / »
-  try {
-    const recettesfind = await recettes.find(); // Cherche tous les documents
-    res.json({ recettes: recettesfind });       // Renvoie le tableau en JSON
-  } catch (err) {
-    res.status(500).json({ error: err.message }); // Erreur serveur
-  }
-});
-
-// ── POST / — Crée une nouvelle recette ───────────────────
-router.post('/', async (req, res) => {  // Route POST sur « / »
-  try {
-    const newRecette = new recettes(req.body); // Instancie un nouveau doc depuis le body
-    const savedRecette = await newRecette.save(); // Sauvegarde en base
-    res.status(201).json({ message: 'Recette créée', recette: savedRecette }); // 201 = créé
-  } catch (err) {
-    res.status(400).json({ error: err.message }); // 400 = données invalides
-  }
-});
-
-// ── GET /:id — Récupère une recette par son ID ───────────
-router.get('/:id', async (req, res) => { // Route GET avec paramètre « :id »
-  try {
-    const recette = await recettes.findById(req.params.id); // Cherche par _id MongoDB
-    if (!recette) {
-      return res.status(404).json({ error: 'Recette non trouvée' }); // ID inconnu → 404
+// ── GET / — Toutes les recettes (avec infos auteur) ──────
+router.get('/', async (req, res) => {
+    try {
+        // .populate('auteur') remplace l'ObjectId par les données de l'utilisateur
+        // on exclut le mot de passe avec le sélecteur '-password'
+        const recettesfind = await Recette.find().populate('auteur', '-password');
+        res.json({ recettes: recettesfind });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-    res.json({ recette }); // Renvoie la recette trouvée
-  } catch (err) {
-    res.status(500).json({ error: err.message }); // Erreur serveur (ex. ID malformé)
-  }
 });
 
-// ── DELETE /:id — Supprime une recette par son ID ────────
-router.delete('/:id', async (req, res) => { // Route DELETE avec paramètre « :id »
-  try {
-    const recette = await recettes.findByIdAndDelete(req.params.id); // Trouve ET supprime
-    if (!recette) {
-      return res.status(404).json({ message: 'Recette non trouvée' }); // Rien supprimé → 404
+// ── POST / — Créer une recette liée à un utilisateur ─────
+router.post('/', async (req, res) => {
+    try {
+        const { auteur } = req.body;
+
+        // Vérifie que l'utilisateur existe avant de créer la recette
+        const userExiste = await User.findById(auteur);
+        if (!userExiste) {
+            return res.status(404).json({ error: 'Utilisateur introuvable' });
+        }
+
+        const newRecette   = new Recette(req.body);
+        const savedRecette = await newRecette.save();
+
+        // Retourne la recette avec les infos de l'auteur (sans mot de passe)
+        const populated = await savedRecette.populate('auteur', '-password');
+        res.status(201).json({ message: 'Recette créée', recette: populated });
+
+    } catch (err) {
+        res.status(400).json({ error: err.message });
     }
-    res.status(200).json({ message: 'Recette supprimée avec succès' }); // Succès
-  } catch (error) {
-    res.status(500).json({ message: 'Erreur serveur', error: error.message }); // Erreur serveur
-  }
 });
 
-// ── PUT /:id — Met à jour une recette par son ID ─────────
-router.put('/:id', async (req, res) => { // Route PUT avec paramètre « :id »
-  try {
-    const updatedRecette = await recettes.findByIdAndUpdate(
-      req.params.id,   // ID de la recette à modifier
-      req.body,         // Nouvelles données issues du body
-      { new: true, runValidators: true } // new:true → retourne le doc mis à jour ; runValidators → applique les règles du schéma
-    );
-    if (!updatedRecette) {
-      return res.status(404).json({ message: 'Recette non trouvée' }); // ID inconnu → 404
+// ── GET /:id — Une recette par ID (avec auteur) ──────────
+router.get('/:id', async (req, res) => {
+    try {
+        const recette = await Recette.findById(req.params.id).populate('auteur', '-password');
+        if (!recette) {
+            return res.status(404).json({ error: 'Recette non trouvée' });
+        }
+        res.json({ recette });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
     }
-    res.json({ recette: updatedRecette }); // Renvoie la recette modifiée
-  } catch (error) {
-    res.status(500).json({ message: 'Erreur serveur', error: error.message }); // Erreur serveur
-  }
 });
 
-// ── Export ────────────────────────────────────────────────
-module.exports = router; // Exporte le routeur pour l'utiliser dans app.js
+// ── DELETE /:id ──────────────────────────────────────────
+router.delete('/:id', async (req, res) => {
+    try {
+        const recette = await Recette.findByIdAndDelete(req.params.id);
+        if (!recette) {
+            return res.status(404).json({ message: 'Recette non trouvée' });
+        }
+        res.status(200).json({ message: 'Recette supprimée avec succès' });
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur serveur', error: error.message });
+    }
+});
+
+// ── PUT /:id ─────────────────────────────────────────────
+router.put('/:id', async (req, res) => {
+    try {
+        const updatedRecette = await Recette.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true }
+        ).populate('auteur', '-password');
+
+        if (!updatedRecette) {
+            return res.status(404).json({ message: 'Recette non trouvée' });
+        }
+        res.json({ recette: updatedRecette });
+    } catch (error) {
+        res.status(500).json({ message: 'Erreur serveur', error: error.message });
+    }
+});
+
+module.exports = router;
