@@ -48,4 +48,3 @@ const Recette = mongoose.model('Recette', recetteSchema);
 
 // ── Export ────────────────────────────────────────────────
 module.exports = Recette; // Exporte le modèle pour l'utiliser dans les routes
-
