@@ -505,185 +505,159 @@ section h2 {
     color: var(--text-muted);
     line-height: 1.65;
 }
-/* ── Bouton voir la recette ──────────────────────────────── */
 
-.btn-voir {
-    margin-top: 1rem;
-    width: 100%;
-    padding: 0.65rem 1rem;
-    background: transparent;
-    border: 1.5px solid var(--terracotta);
-    border-radius: var(--radius-sm);
-    color: var(--terracotta);
-    font-family: var(--font-body);
+/* ===================================================== */
+/*                PAGE UTILISATEURS                       */
+/* ===================================================== */
+
+#userForm {
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+#userForm div {
+    display: flex;
+    flex-direction: column;
+}
+
+#userForm label {
     font-size: 0.8rem;
     font-weight: 500;
-    letter-spacing: 0.06em;
+    color: var(--text-muted);
     text-transform: uppercase;
-    cursor: pointer;
-    transition: background 0.2s ease, color 0.2s ease;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
 }
 
-.btn-voir:hover {
-    background: var(--terracotta);
-    color: var(--white);
+#userForm input {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--cream);
+    transition: all 0.2s ease;
 }
 
-/* ── Modal overlay ───────────────────────────────────────── */
-
-#modal-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(42, 36, 32, 0.65);
-    backdrop-filter: blur(4px);
-    z-index: 1000;
-    align-items: center;
-    justify-content: center;
-    padding: 1.5rem;
-}
-
-#modal-overlay.active {
-    display: flex;
-}
-
-/* ── Modal box ───────────────────────────────────────────── */
-
-#modal {
+#userForm input:focus {
+    outline: none;
+    border-color: var(--terracotta);
     background: var(--white);
-    border-radius: var(--radius-lg);
-    width: 100%;
-    max-width: 680px;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    box-shadow: 0 20px 60px rgba(42,36,32,0.25);
-    animation: modalIn 0.25s ease;
 }
 
-@keyframes modalIn {
-    from { opacity: 0; transform: translateY(20px) scale(0.97); }
-    to   { opacity: 1; transform: translateY(0)    scale(1);    }
-}
-
-/* ── Bouton fermer ───────────────────────────────────────── */
-
-#modal-close {
-    position: sticky;
-    top: 1rem;
-    float: right;
-    margin: 1rem 1rem 0 0;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
+#userForm button {
+    width: fit-content;
+    padding: 0.9rem 1.5rem;
     border: none;
-    background: var(--cream-dark);
-    color: var(--charcoal);
-    font-size: 1.2rem;
-    line-height: 1;
+    border-radius: var(--radius-sm);
+    background: var(--terracotta);
+    color: white;
+    font-weight: 600;
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease;
-    z-index: 10;
+    transition: all 0.2s ease;
 }
 
-#modal-close:hover {
-    background: var(--border);
+#userForm button:hover {
+    background: var(--terra-dark);
+    transform: translateY(-2px);
 }
 
-/* ── Image modal ─────────────────────────────────────────── */
+/* ===================================================== */
+/*                LISTE DES UTILISATEURS                  */
+/* ===================================================== */
 
-#modal-img-wrap {
-    width: 100%;
-    height: 260px;
-    overflow: hidden;
-    margin-top: -44px;
+#users {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
 }
 
-#modal-img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+.user {
+    background: white;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+    transition: all 0.25s ease;
 }
 
-/* ── Contenu modal ───────────────────────────────────────── */
-
-#modal-content {
-    padding: 1.75rem 2rem 2rem;
+.user:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
 }
 
-#modal-auteur {
-    font-size: 0.75rem;
-    font-weight: 500;
-    color: var(--terracotta);
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
+.user h3 {
+    font-family: var(--font-display);
+    color: var(--charcoal);
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+}
+
+.user p {
+    color: var(--text-muted);
     margin-bottom: 0.4rem;
 }
 
-#modal-title {
-    font-family: var(--font-display);
-    font-size: 1.8rem;
-    font-weight: 500;
-    color: var(--charcoal);
-    margin-bottom: 1rem;
-    line-height: 1.25;
-}
-
-#modal-meta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-}
-
-#modal-meta span {
-    background: var(--cream);
-    border: 1px solid var(--border);
-    border-radius: 100px;
-    padding: 0.3rem 0.85rem;
+.user p:first-child {
     font-size: 0.8rem;
-    color: var(--text-muted);
-    font-weight: 500;
+    color: var(--terracotta);
+    word-break: break-all;
 }
 
-#modal-section {
-    margin-bottom: 1.25rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid var(--border);
+/* ===================================================== */
+/*                BOUTONS CRUD                            */
+/* ===================================================== */
+
+.actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
 }
 
-#modal-section h4 {
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 0.6rem;
+.editBtn,
+.deleteBtn {
+    flex: 1;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
-#modal-section p {
-    font-size: 0.95rem;
-    color: var(--charcoal);
-    line-height: 1.75;
-    white-space: pre-line;
+.editBtn {
+    background: #4CAF50;
+    color: white;
 }
 
-/* ── Responsive modal ────────────────────────────────────── */
+.editBtn:hover {
+    background: #3f9142;
+}
 
-@media (max-width: 480px) {
-    #modal-img-wrap {
-        height: 200px;
+.deleteBtn {
+    background: #e74c3c;
+    color: white;
+}
+
+.deleteBtn:hover {
+    background: #c0392b;
+}
+
+/* ===================================================== */
+/*                RESPONSIVE                              */
+/* ===================================================== */
+
+@media (max-width: 768px) {
+
+    #users {
+        grid-template-columns: 1fr;
     }
 
-    #modal-content {
-        padding: 1.25rem 1.25rem 1.75rem;
+    .actions {
+        flex-direction: column;
     }
 
-    #modal-title {
-        font-size: 1.4rem;
-    }
 }
