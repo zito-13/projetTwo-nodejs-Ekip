@@ -187,5 +187,5 @@ Pour obtenir une clé gratuite : [pexels.com/api](https://www.pexels.com/api/) �
 ---
 
 ## Auteurs
-
-Projet réalisé dans le cadre de la formation **Ekip**.
+@zito-13 , @Ryukai555 
+Projet réalisé dans le cadre de la formation développeur web et web mobile .
