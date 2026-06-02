@@ -2,6 +2,7 @@ const API_USERS = "http://localhost:3000/users";
 
 const usersContainer = document.getElementById("users");
 const userForm = document.getElementById("userForm");
+const formMessage = document.getElementById("formMessage");
 
 async function getUsers() {
 
@@ -64,39 +65,50 @@ function addEvents(users) {
             );
 
             const name = prompt("Nom :", user.name);
-
             if (name === null) return;
 
             const firstName = prompt("Prénom :", user.firstName);
-
             if (firstName === null) return;
 
             const age = prompt("Âge :", user.age);
-
             if (age === null) return;
 
             const email = prompt("Email :", user.email);
-
             if (email === null) return;
 
-            await fetch(`${API_USERS}/${user._id}`, {
+            try {
 
-                method: "PUT",
+                const response = await fetch(`${API_USERS}/${user._id}`, {
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                    method: "PUT",
 
-                body: JSON.stringify({
-                    name,
-                    firstName,
-                    age: Number(age),
-                    email
-                })
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
 
-            });
+                    body: JSON.stringify({
+                        name,
+                        firstName,
+                        age: Number(age),
+                        email
+                    })
 
-            getUsers();
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    alert(data.message);
+                    return;
+                }
+
+                getUsers();
+
+            } catch (error) {
+
+                alert(error.message);
+
+            }
 
         });
 
@@ -128,6 +140,8 @@ userForm.addEventListener("submit", async (e) => {
 
     e.preventDefault();
 
+    formMessage.textContent = "";
+
     const user = {
 
         name: document.getElementById("name").value,
@@ -138,21 +152,43 @@ userForm.addEventListener("submit", async (e) => {
 
     };
 
-    await fetch(API_USERS, {
+    try {
 
-        method: "POST",
+        const response = await fetch(API_USERS, {
 
-        headers: {
-            "Content-Type": "application/json"
-        },
+            method: "POST",
 
-        body: JSON.stringify(user)
+            headers: {
+                "Content-Type": "application/json"
+            },
 
-    });
+            body: JSON.stringify(user)
 
-    userForm.reset();
+        });
 
-    getUsers();
+        const data = await response.json();
+
+        if (!response.ok) {
+
+            formMessage.style.color = "red";
+            formMessage.textContent = data.message;
+
+            return;
+        }
+
+        formMessage.style.color = "green";
+        formMessage.textContent = "Utilisateur créé avec succès";
+
+        userForm.reset();
+
+        getUsers();
+
+    } catch (error) {
+
+        formMessage.style.color = "red";
+        formMessage.textContent = error.message;
+
+    }
 
 });
 
