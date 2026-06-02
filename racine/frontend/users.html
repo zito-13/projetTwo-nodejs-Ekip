@@ -1,19 +1,80 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
-    <title>Utilisateurs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des utilisateurs</title>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
+
 <body>
 
-    <h1>Liste des utilisateurs</h1>
+    <header>
+        <h1>Gestion des utilisateurs</h1>
 
-    <div id="users-liste">
-        Chargement...
-    </div>
+        <nav>
+            <ul>
+                <li>
+                    <a href="index.html">Retour recettes</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
 
-    <script src="./assets/js/users.js"></script>
+    <main>
+
+        <section>
+
+            <h2>Créer un utilisateur</h2>
+
+            <form id="userForm">
+
+                <div>
+                    <label for="name">Nom</label>
+                    <input type="text" id="name" required>
+                </div>
+
+                <div>
+                    <label for="firstName">Prénom</label>
+                    <input type="text" id="firstName" required>
+                </div>
+
+                <div>
+                    <label for="age">Âge</label>
+                    <input type="number" id="age" required>
+                </div>
+
+                <div>
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+
+                <div>
+                    <label for="password">Mot de passe</label>
+                    <input type="password" id="password" required>
+                </div>
+
+                <button type="submit">
+                    Créer utilisateur
+                </button>
+
+            </form>
+
+        </section>
+
+        <section>
+
+            <h2>Liste des utilisateurs</h2>
+
+            <div id="users"></div>
+
+        </section>
+
+    </main>
+
+    <script src="./assets/js/user.js"></script>
 
 </body>
+
 </html>

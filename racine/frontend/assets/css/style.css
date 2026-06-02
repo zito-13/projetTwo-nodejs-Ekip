@@ -505,3 +505,159 @@ section h2 {
     color: var(--text-muted);
     line-height: 1.65;
 }
+
+/* ===================================================== */
+/*                PAGE UTILISATEURS                       */
+/* ===================================================== */
+
+#userForm {
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+#userForm div {
+    display: flex;
+    flex-direction: column;
+}
+
+#userForm label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.3rem;
+}
+
+#userForm input {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--cream);
+    transition: all 0.2s ease;
+}
+
+#userForm input:focus {
+    outline: none;
+    border-color: var(--terracotta);
+    background: var(--white);
+}
+
+#userForm button {
+    width: fit-content;
+    padding: 0.9rem 1.5rem;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: var(--terracotta);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+#userForm button:hover {
+    background: var(--terra-dark);
+    transform: translateY(-2px);
+}
+
+/* ===================================================== */
+/*                LISTE DES UTILISATEURS                  */
+/* ===================================================== */
+
+#users {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+}
+
+.user {
+    background: white;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-sm);
+    padding: 1.5rem;
+    transition: all 0.25s ease;
+}
+
+.user:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+}
+
+.user h3 {
+    font-family: var(--font-display);
+    color: var(--charcoal);
+    font-size: 1.4rem;
+    margin-bottom: 0.75rem;
+}
+
+.user p {
+    color: var(--text-muted);
+    margin-bottom: 0.4rem;
+}
+
+.user p:first-child {
+    font-size: 0.8rem;
+    color: var(--terracotta);
+    word-break: break-all;
+}
+
+/* ===================================================== */
+/*                BOUTONS CRUD                            */
+/* ===================================================== */
+
+.actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.editBtn,
+.deleteBtn {
+    flex: 1;
+    border: none;
+    border-radius: var(--radius-sm);
+    padding: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.editBtn {
+    background: #4CAF50;
+    color: white;
+}
+
+.editBtn:hover {
+    background: #3f9142;
+}
+
+.deleteBtn {
+    background: #e74c3c;
+    color: white;
+}
+
+.deleteBtn:hover {
+    background: #c0392b;
+}
+
+/* ===================================================== */
+/*                RESPONSIVE                              */
+/* ===================================================== */
+
+@media (max-width: 768px) {
+
+    #users {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        flex-direction: column;
+    }
+
+}
