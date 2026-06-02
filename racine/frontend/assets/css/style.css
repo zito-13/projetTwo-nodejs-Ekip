@@ -87,7 +87,8 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: var(--cream);
+    background-color: white;
+    color: var(--terracotta);
 }
 
 #btn-deconnexion{
@@ -349,6 +350,7 @@ section h2 {
     color: var(--text-muted);
     line-height: 1.65;
 }
+
 
 /* ── Responsive ──────────────────────────────────────────── */
 
