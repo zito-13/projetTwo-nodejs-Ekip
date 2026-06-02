@@ -39,12 +39,16 @@ const recetteSchema = new mongoose.Schema({
         type: String,        // Catégorie de la recette (ex. "Dessert", "Entrée")
         required: true      // Champ obligatoire
     },
-    
+
     auteur: {
-    type: mongoose.Schema.Types.ObjectId, // stocke l'_id de l'utilisateur
-    ref: 'User',                          // permet le .populate()
-    required: true
-}
+        type: mongoose.Schema.Types.ObjectId, // stocke l'_id de l'utilisateur
+        ref: 'User',                          // permet le .populate()
+        required: true
+    },
+    lienimg: {
+        type: String,        // URL de l'image de la recette
+        required: false      // Champ optionnel
+    }
 });
 
 // ── Création du modèle ────────────────────────────────────

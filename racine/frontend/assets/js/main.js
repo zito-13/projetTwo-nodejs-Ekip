@@ -63,6 +63,7 @@ async function afficherRecettes() {
 
             card.innerHTML = `
                 <h3>${r.title}</h3>
+                <img src="${r.lienimg || 'default-image.jpg'}" alt="Image de ${r.title}" class="recette-image">
                 <p class="recette-auteur">${auteurNom}</p>
                 <p><strong>Categorie :</strong> ${r.categories}</p>
                 <p><strong>Difficulte :</strong> ${r.difficulty}</p>
@@ -102,6 +103,7 @@ if (form) {
             difficulty:   document.getElementById('difficulty').value,
             categories:   document.getElementById('categories').value.trim(),
             auteur:       selectAuteur.value,
+            lienimg:      document.getElementById('lienimg').value.trim()
         };
 
         if (!recette.auteur) {

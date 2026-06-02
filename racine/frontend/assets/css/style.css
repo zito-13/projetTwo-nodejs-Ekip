@@ -77,11 +77,15 @@ nav ul li a {
     font-family: var(--font-body);
     font-size: 0.875rem;
     font-weight: 500;
-    color: var(--text-light);
+    color: white;
     text-decoration: none;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     transition: color 0.2s ease;
+    background-color:#C4623A;
+    border-radius: 12px;
+    padding:5px;
+    
 }
 
 nav ul li a:hover {
@@ -328,6 +332,15 @@ section h2 {
     font-size: 0.9rem;
     color: var(--text-muted);
     line-height: 1.65;
+}
+
+.recette-card img.recette-image {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: var(--radius-sm);
+    margin-bottom: 0.75rem;
+    object-fit: cover;
 }
 
 /* ── Responsive ──────────────────────────────────────────── */
