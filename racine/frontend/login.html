@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connexion - ZeBig Cooking</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/login.css">
+</head>
+
+<body class="login-page">
+
+    <header>
+        <h1>ZeBig Cooking</h1>
+        <nav>
+            <ul>
+                <li><a id="btnhome" href="index.html">Accueil</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="login-main">
+
+        <div class="login-card">
+
+            <div class="login-header">
+                <h2>Connexion</h2>
+                <p>Bienvenue, connectez-vous pour continuer</p>
+            </div>
+
+            <form id="login-form">
+
+                <div class="field">
+                    <label for="email">Adresse email</label>
+                    <input type="email" id="email" name="email" placeholder="exemple@mail.com" required>
+                </div>
+
+                <div class="field">
+                    <label for="password">Mot de passe</label>
+                    <div class="input-password">
+                        <input type="password" id="password" name="password" placeholder="Votre mot de passe" required>
+                        <button type="button" id="toggle-password" aria-label="Afficher le mot de passe">
+                            <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="login-error"></div>
+
+                <button type="submit" class="btn-submit">Se connecter</button>
+
+            </form>
+
+            <p class="login-footer">
+                Pas encore de compte ? <a href="users.html">Créer un compte</a>
+            </p>
+
+        </div>
+
+    </main>
+
+    <script src="./assets/js/login.js"></script>
+</body>
+
+</html>

@@ -6,6 +6,50 @@ const form         = document.getElementById('recipe-form');
 const selectAuteur = document.getElementById('auteur');
 const listeSection = document.getElementById('recettes-liste');
 
+// ── Session ───────────────────────────────────────────────
+function getUser() {
+    try {
+        return JSON.parse(localStorage.getItem('user'));
+    } catch {
+        return null;
+    }
+}
+
+function gererNav() {
+    const user           = getUser();
+    const navAjouter     = document.getElementById('nav-ajouter');
+    const navUser        = document.getElementById('nav-user');
+    const navUsername    = document.getElementById('nav-username');
+    const navDeconnexion = document.getElementById('nav-deconnexion');
+    const navConnexion   = document.getElementById('nav-connexion');
+    const btnDeconnexion = document.getElementById('btn-deconnexion');
+
+    const afficher = (el, visible) => {
+        if (el) el.style.display = visible ? 'list-item' : 'none';
+    };
+
+    if (user) {
+        afficher(navAjouter,     true);
+        afficher(navUser,        true);
+        afficher(navDeconnexion, true);
+        afficher(navConnexion,   false);
+        
+    } else {
+        afficher(navAjouter,     false);
+        afficher(navUser,        false);
+        afficher(navDeconnexion, false);
+        afficher(navConnexion,   true);
+    }
+
+    if (btnDeconnexion) {
+        btnDeconnexion.addEventListener('click', (e) => {
+            e.preventDefault();
+            localStorage.removeItem('user');
+            window.location.href = 'login.html';
+        });
+    }
+}
+
 // ── Modal ─────────────────────────────────────────────────
 function creerModal() {
     const overlay = document.createElement('div');
@@ -36,21 +80,16 @@ function creerModal() {
     document.body.appendChild(overlay);
 
     document.getElementById('modal-close').addEventListener('click', fermerModal);
-    overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) fermerModal();
-    });
-
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') fermerModal();
-    });
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) fermerModal(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') fermerModal(); });
 }
 
 function ouvrirModal(r) {
     const auteurNom = r.auteur ? r.auteur.username : 'Inconnu';
 
-    document.getElementById('modal-title').textContent       = r.title;
-    document.getElementById('modal-auteur').textContent      = auteurNom;
-    document.getElementById('modal-ingredients').textContent = r.ingredients;
+    document.getElementById('modal-title').textContent        = r.title;
+    document.getElementById('modal-auteur').textContent       = auteurNom;
+    document.getElementById('modal-ingredients').textContent  = r.ingredients;
     document.getElementById('modal-instructions').textContent = r.instructions;
 
     document.getElementById('modal-meta').innerHTML = `
@@ -60,24 +99,22 @@ function ouvrirModal(r) {
         <span>Cuisson ${r.timecook} min</span>
     `;
 
-    const imgEl = document.getElementById('modal-img');
+    const imgEl   = document.getElementById('modal-img');
     const imgWrap = document.getElementById('modal-img-wrap');
     if (r.image) {
-        imgEl.src = r.image;
-        imgEl.alt = r.title;
+        imgEl.src             = r.image;
+        imgEl.alt             = r.title;
         imgWrap.style.display = 'block';
     } else {
         imgWrap.style.display = 'none';
     }
 
-    const overlay = document.getElementById('modal-overlay');
-    overlay.classList.add('active');
+    document.getElementById('modal-overlay').classList.add('active');
     document.body.style.overflow = 'hidden';
 }
 
 function fermerModal() {
-    const overlay = document.getElementById('modal-overlay');
-    overlay.classList.remove('active');
+    document.getElementById('modal-overlay').classList.remove('active');
     document.body.style.overflow = '';
 }
 
@@ -99,10 +136,10 @@ function afficherMessage(texte, succes = true) {
 // ── Recherche image Pexels ────────────────────────────────
 async function chercherImage(titre, categorie) {
     try {
-        const termesFood = 'recipe dish plated food meal cuisine';
-        const motsInutiles = ['de', 'du', 'des', 'au', 'aux', 'à', 'la', 'le', 'les', 'un', 'une', 'et', 'avec'];
-        const titrePropre = titre.toLowerCase().split(' ')
-            .filter(mot => !motsInutiles.includes(mot)).join(' ');
+        const termesFood   = 'recipe dish plated food meal cuisine';
+        const motsInutiles = ['de','du','des','au','aux','à','la','le','les','un','une','et','avec'];
+        const titrePropre  = titre.toLowerCase().split(' ')
+            .filter(m => !motsInutiles.includes(m)).join(' ');
 
         const query    = encodeURIComponent(`${titrePropre} ${categorie} ${termesFood}`);
         const url      = `https://api.pexels.com/v1/search?query=${query}&per_page=5&orientation=landscape&size=large`;
@@ -114,18 +151,14 @@ async function chercherImage(titre, categorie) {
         if (!data.photos || data.photos.length === 0) return await chercherImageFallback(titrePropre);
 
         const motsTitre = titrePropre.split(' ');
-        let meilleure = data.photos[0];
-        let meilleurScore = 0;
-
-        data.photos.forEach(photo => {
-            const alt   = (photo.alt || '').toLowerCase();
-            const score = motsTitre.filter(mot => alt.includes(mot)).length;
-            if (score > meilleurScore) { meilleurScore = score; meilleure = photo; }
+        let meilleure = data.photos[0], meilleurScore = 0;
+        data.photos.forEach(p => {
+            const score = motsTitre.filter(m => (p.alt || '').toLowerCase().includes(m)).length;
+            if (score > meilleurScore) { meilleurScore = score; meilleure = p; }
         });
 
         return meilleure.src.large;
     } catch (err) {
-        console.error('Erreur Pexels :', err);
         return null;
     }
 }
@@ -138,9 +171,7 @@ async function chercherImageFallback(titrePropre) {
         if (!response.ok) return null;
         const data = await response.json();
         return data.photos && data.photos.length > 0 ? data.photos[0].src.large : null;
-    } catch (err) {
-        return null;
-    }
+    } catch { return null; }
 }
 
 // ── Chargement utilisateurs ───────────────────────────────
@@ -149,7 +180,6 @@ async function chargerUtilisateurs() {
     try {
         const response = await fetch(API_USERS);
         const users    = await response.json();
-
         selectAuteur.innerHTML = '<option value="">-- Choisir un auteur --</option>';
         users.forEach(u => {
             const option       = document.createElement('option');
@@ -179,8 +209,7 @@ async function afficherRecettes() {
 
         recettes.forEach(r => {
             const auteurNom = r.auteur ? r.auteur.username : 'Inconnu';
-
-            const card = document.createElement('article');
+            const card      = document.createElement('article');
             card.className  = 'recette-card';
             card.dataset.id = r._id;
 
@@ -209,7 +238,6 @@ async function afficherRecettes() {
 
     } catch (err) {
         listeSection.innerHTML = '<p style="color:red">Impossible de charger les recettes.</p>';
-        console.error(err);
     }
 }
 
@@ -270,6 +298,8 @@ if (form) {
     });
 }
 
+// ── Init ──────────────────────────────────────────────────
+gererNav();
 creerModal();
 chargerUtilisateurs();
 afficherRecettes();

@@ -1,0 +1,202 @@
+/* ── Page login ──────────────────────────────────────────── */
+
+#btnhome:hover{
+background-color: white;
+color:#C4623A;
+}
+
+.login-page {
+    background-image: url('../images/bgcooklight.png');
+    background-size: contain;
+}
+
+.login-main {
+    min-height: calc(100vh - 72px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1.25rem;
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+
+.login-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2.25rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow-md);
+}
+
+/* ── En-tête ─────────────────────────────────────────────── */
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1.5px solid var(--border);
+}
+
+.login-header h2 {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+}
+
+.login-header p {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+}
+
+/* ── Champs ──────────────────────────────────────────────── */
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.field label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.field input {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--charcoal);
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.9rem;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.field input:focus {
+    border-color: var(--terracotta);
+    background: var(--white);
+}
+
+/* ── Champ mot de passe avec bouton oeil ─────────────────── */
+
+.input-password {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-password input {
+    padding-right: 2.8rem;
+}
+
+#toggle-password {
+    position: absolute;
+    right: 0.75rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-light);
+    display: flex;
+    align-items: center;
+    padding: 0;
+    transition: color 0.2s ease;
+}
+
+#toggle-password:hover {
+    color: var(--charcoal);
+}
+
+/* ── Message d'erreur ────────────────────────────────────── */
+
+#login-error {
+    font-size: 0.875rem;
+    color: #c0392b;
+    background: #fdf0ee;
+    border: 1px solid #f5c6be;
+    border-radius: var(--radius-sm);
+    padding: 0.6rem 0.9rem;
+    display: none;
+}
+
+#login-error.visible {
+    display: block;
+}
+
+/* ── Bouton submit ───────────────────────────────────────── */
+
+.btn-submit {
+    margin-top: 0.25rem;
+    padding: 0.85rem;
+    background-color: var(--terracotta);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 100%;
+}
+
+.btn-submit:hover {
+    background-color: var(--terra-dark);
+}
+
+.btn-submit:active {
+    transform: scale(0.98);
+}
+
+.btn-submit:disabled {
+    background-color: var(--text-light);
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ── Lien inscription ────────────────────────────────────── */
+
+.login-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.login-footer a {
+    color: var(--terracotta);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.login-footer a:hover {
+    color: var(--terra-dark);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+    .login-card {
+        padding: 2rem 1.5rem;
+    }
+
+    .login-header h2 {
+        font-size: 1.6rem;
+    }
+}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>zebigcooking</title>
+    <title>ZeBig Cooking</title>
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
@@ -14,15 +14,23 @@
         <h1>ZeBig Cooking</h1>
         <nav>
             <ul>
-                <li><a href="ajoutrecette.html">Ajouter une recette</a></li>
-                <li><a href="users.html">Utilisateurs</a></li>
+                <li id="nav-ajouter" style="display:none">
+                    <a href="ajoutrecette.html">Ajouter une recette</a>
+                </li>
+                <li id="nav-user" style="display:none">
+                    <span id="nav-username"></span>
+                </li>
+                <li id="nav-deconnexion" style="display:none">
+                    <a href="#" id="btn-deconnexion">Deconnexion</a>
+                </li>
+                <li id="nav-connexion">
+                    <a href="login.html">Connexion</a>
+                </li>
             </ul>
         </nav>
     </header>
 
     <main>
-
-        
 
         <section id="recettes-section">
             <h2>Toutes les recettes</h2>
@@ -30,6 +38,7 @@
                 <p>Chargement...</p>
             </div>
         </section>
+
     </main>
 
     <script src="./assets/js/main.js"></script>

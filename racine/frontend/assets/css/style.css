@@ -69,7 +69,7 @@ header h1 span {
 nav ul {
     list-style: none;
     display: flex;
-    gap: 2rem;
+    gap: 5px;
 }
 
 nav ul li a {
@@ -90,10 +90,28 @@ nav ul li a:hover {
     color: var(--cream);
 }
 
+#btn-deconnexion{
+    background-color: rgb(253, 73, 73);
+}
+#btn-deconnexion:hover{
+    background-color: white;
+    color: red;
+}
+
+#nav-ajouter :hover{  
+    background-color: white;
+    color: var(--terracotta);
+
+}
+#nav-connexion :hover{
+    background-color: white;
+    color: var(--terracotta);
+}
+
 /* ── Main layout ─────────────────────────────────────────── */
 
 main {
-    max-width: 900px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 3rem 2rem 5rem;
     display: flex;
@@ -224,27 +242,13 @@ section h2 {
 
 #recettes-liste {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Crée 3 colonnes de largeur égale */
-    gap: 1.5rem; /* Espace entre les cartes */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
 }
 
 #recettes-liste > p {
     color: var(--text-muted);
     font-size: 0.95rem;
-}
-
-/* Pour les tablettes : affichage sur 2 colonnes */
-@media (max-width: 800px) {
-    #recettes-liste {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Pour les téléphones : affichage sur 1 colonne */
-@media (max-width: 480px) {
-    #recettes-liste {
-        grid-template-columns: 1fr;
-    }
 }
 
 /* ── Carte recette ───────────────────────────────────────── */
@@ -348,6 +352,12 @@ section h2 {
 
 /* ── Responsive ──────────────────────────────────────────── */
 
+@media (max-width: 1024px) {
+    #recettes-liste {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 @media (max-width: 800px) {
     main {
         padding: 2rem 1.25rem 4rem;
@@ -379,6 +389,10 @@ section h2 {
 @media (max-width: 480px) {
     nav ul li a {
         font-size: 0.75rem;
+    }
+
+    #recettes-liste {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -505,159 +519,185 @@ section h2 {
     color: var(--text-muted);
     line-height: 1.65;
 }
+/* ── Bouton voir la recette ──────────────────────────────── */
 
-/* ===================================================== */
-/*                PAGE UTILISATEURS                       */
-/* ===================================================== */
-
-#userForm {
-    max-width: 700px;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 3rem;
-}
-
-#userForm div {
-    display: flex;
-    flex-direction: column;
-}
-
-#userForm label {
+.btn-voir {
+    margin-top: 1rem;
+    width: 100%;
+    padding: 0.65rem 1rem;
+    background: transparent;
+    border: 1.5px solid var(--terracotta);
+    border-radius: var(--radius-sm);
+    color: var(--terracotta);
+    font-family: var(--font-body);
     font-size: 0.8rem;
     font-weight: 500;
-    color: var(--text-muted);
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.3rem;
-}
-
-#userForm input {
-    font-family: var(--font-body);
-    font-size: 0.95rem;
-    padding: 0.75rem 1rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius-sm);
-    background: var(--cream);
-    transition: all 0.2s ease;
-}
-
-#userForm input:focus {
-    outline: none;
-    border-color: var(--terracotta);
-    background: var(--white);
-}
-
-#userForm button {
-    width: fit-content;
-    padding: 0.9rem 1.5rem;
-    border: none;
-    border-radius: var(--radius-sm);
-    background: var(--terracotta);
-    color: white;
-    font-weight: 600;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: background 0.2s ease, color 0.2s ease;
 }
 
-#userForm button:hover {
-    background: var(--terra-dark);
-    transform: translateY(-2px);
+.btn-voir:hover {
+    background: var(--terracotta);
+    color: var(--white);
 }
 
-/* ===================================================== */
-/*                LISTE DES UTILISATEURS                  */
-/* ===================================================== */
+/* ── Modal overlay ───────────────────────────────────────── */
 
-#users {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
-}
-
-.user {
-    background: white;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border);
-    box-shadow: var(--shadow-sm);
+#modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(42, 36, 32, 0.65);
+    backdrop-filter: blur(4px);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
     padding: 1.5rem;
-    transition: all 0.25s ease;
 }
 
-.user:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
+#modal-overlay.active {
+    display: flex;
 }
 
-.user h3 {
-    font-family: var(--font-display);
+/* ── Modal box ───────────────────────────────────────────── */
+
+#modal {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 680px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(42,36,32,0.25);
+    animation: modalIn 0.25s ease;
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: translateY(20px) scale(0.97); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+/* ── Bouton fermer ───────────────────────────────────────── */
+
+#modal-close {
+    position: sticky;
+    top: 1rem;
+    float: right;
+    margin: 1rem 1rem 0 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background: var(--cream-dark);
     color: var(--charcoal);
-    font-size: 1.4rem;
-    margin-bottom: 0.75rem;
+    font-size: 1.2rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+    z-index: 10;
 }
 
-.user p {
-    color: var(--text-muted);
+#modal-close:hover {
+    background: var(--border);
+}
+
+/* ── Image modal ─────────────────────────────────────────── */
+
+#modal-img-wrap {
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+    margin-top: -44px;
+}
+
+#modal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* ── Contenu modal ───────────────────────────────────────── */
+
+#modal-content {
+    padding: 1.75rem 2rem 2rem;
+}
+
+#modal-auteur {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--terracotta);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
     margin-bottom: 0.4rem;
 }
 
-.user p:first-child {
-    font-size: 0.8rem;
-    color: var(--terracotta);
-    word-break: break-all;
+#modal-title {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 1rem;
+    line-height: 1.25;
 }
 
-/* ===================================================== */
-/*                BOUTONS CRUD                            */
-/* ===================================================== */
-
-.actions {
+#modal-meta {
     display: flex;
-    gap: 0.75rem;
-    margin-top: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
 }
 
-.editBtn,
-.deleteBtn {
-    flex: 1;
-    border: none;
-    border-radius: var(--radius-sm);
-    padding: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s ease;
+#modal-meta span {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-weight: 500;
 }
 
-.editBtn {
-    background: #4CAF50;
-    color: white;
+#modal-section {
+    margin-bottom: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
 }
 
-.editBtn:hover {
-    background: #3f9142;
+#modal-section h4 {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.6rem;
 }
 
-.deleteBtn {
-    background: #e74c3c;
-    color: white;
+#modal-section p {
+    font-size: 0.95rem;
+    color: var(--charcoal);
+    line-height: 1.75;
+    white-space: pre-line;
 }
 
-.deleteBtn:hover {
-    background: #c0392b;
-}
+/* ── Responsive modal ────────────────────────────────────── */
 
-/* ===================================================== */
-/*                RESPONSIVE                              */
-/* ===================================================== */
-
-@media (max-width: 768px) {
-
-    #users {
-        grid-template-columns: 1fr;
+@media (max-width: 480px) {
+    #modal-img-wrap {
+        height: 200px;
     }
 
-    .actions {
-        flex-direction: column;
+    #modal-content {
+        padding: 1.25rem 1.25rem 1.75rem;
     }
 
+    #modal-title {
+        font-size: 1.4rem;
+    }
 }
