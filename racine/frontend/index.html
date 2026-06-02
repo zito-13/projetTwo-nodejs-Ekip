@@ -5,71 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>zebigcooking</title>
-
-    <!-- Fichier CSS -->
     <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 
 <body>
-    <!-- En-tête du site -->
+
     <header>
-
-        <!-- Titre principal -->
         <h1>ZeBig Cooking</h1>
-
-        <!-- Navigation -->
         <nav>
             <ul>
-                <li><a href="#">Accueil</a></li>
-                <li><a href="#">Recettes</a></li>
-                <li><a href="#">Utilisateurs</a></li>
+                <li><a href="ajoutrecette.html">Ajouter une recette</a></li>
             </ul>
         </nav>
-
     </header>
 
-    <!-- Contenu principal -->
     <main>
 
-        <!-- Section d'ajout d'une recette -->
-        <section id="recipe-section">
+        
 
-            <h2>Ajouter une recette</h2>
-
-            <!-- Formulaire recette -->
-            <form id="recipe-form">
-
-                <!-- Champ titre -->
-                <div>
-                    <label for="title">Titre :</label>
-                    <input type="text" id="title" name="title" required>
-                </div>
-
-                <!-- Champ description -->
-                <div>
-                    <label for="description">Description :</label>
-                    <textarea id="description" name="description" required>
-                    </textarea>
-                </div>
-
-                <!-- Champ temps de préparation -->
-                <div>
-                    <label for="time">Temps de préparation (minutes) :</label>
-                    <input type="number" id="time" name="time" required>
-                </div>
-
-                <!-- Bouton d'envoi -->
-                <button type="submit">
-                    Ajouter la recette
-                </button>
-
-            </form>
-
+        <section id="recettes-section">
+            <h2>Toutes les recettes</h2>
+            <div id="recettes-liste">
+                <p>Chargement...</p>
+            </div>
         </section>
-
     </main>
 
-    <!-- Fichier JavaScript -->
     <script src="./assets/js/main.js"></script>
 </body>
 

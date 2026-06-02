@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>zebigcooking</title>
+    <link rel="stylesheet" href="./assets/css/style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>ZeBig Cooking</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Toutes les recettes</a></li>
+                <li><a href="ajoutrecette.html">Ajouter une recette</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="recipe-section">
+            <h2>Ajouter une recette</h2>
+
+            <form id="recipe-form">
+
+                <!-- Ligne 1 : auteur, titre, difficulté -->
+                <div>
+                    <label for="auteur">Auteur :</label>
+                    <select id="auteur" name="auteur" required>
+                        <option value="">Chargement des utilisateurs...</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label for="title">Titre :</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+
+                <div>
+                    <label for="difficulty">Difficulté :</label>
+                    <select id="difficulty" name="difficulty" required>
+                        <option value="">-- Choisir --</option>
+                        <option value="Facile">Facile</option>
+                        <option value="Moyen">Moyen</option>
+                        <option value="Difficile">Difficile</option>
+                    </select>
+                </div>
+
+                <!-- Ligne 2 : ingrédients (pleine largeur) -->
+                <div>
+                    <label for="ingredients">Ingrédients :</label>
+                    <textarea id="ingredients" name="ingredients" required
+                        placeholder="Ex : 200g farine, 3 œufs, 100ml lait..."></textarea>
+                </div>
+
+                <!-- Ligne 3 : instructions (pleine largeur) -->
+                <div>
+                    <label for="instructions">Instructions :</label>
+                    <textarea id="instructions" name="instructions" required
+                        placeholder="Décrivez les étapes de préparation..."></textarea>
+                </div>
+
+                <!-- Ligne 4 : temps prépa, temps cuisson, catégorie -->
+                <div>
+                    <label for="time">Temps de préparation (min) :</label>
+                    <input type="number" id="time" name="time" min="0" required>
+                </div>
+
+                <div>
+                    <label for="timecook">Temps de cuisson (min) :</label>
+                    <input type="number" id="timecook" name="timecook" min="0" required>
+                </div>
+
+                <div>
+                    <label for="categories">Catégorie :</label>
+                    <input type="text" id="categories" name="categories" required
+                        placeholder="Ex : Dessert, Entrée, Plat...">
+                </div>
+
+                <button type="submit">Ajouter la recette</button>
+
+            </form>
+        </section>
+
+    </main>
+
+    <script src="./assets/js/main.js"></script>
+</body>
+
+</html>
