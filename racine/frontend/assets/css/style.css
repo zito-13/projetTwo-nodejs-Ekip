@@ -93,7 +93,7 @@ nav ul li a:hover {
 /* ── Main layout ─────────────────────────────────────────── */
 
 main {
-    max-width: 1200px;
+    max-width: 900px;
     margin: 0 auto;
     padding: 3rem 2rem 5rem;
     display: flex;
@@ -224,13 +224,27 @@ section h2 {
 
 #recettes-liste {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: repeat(3, 1fr); /* Crée 3 colonnes de largeur égale */
+    gap: 1.5rem; /* Espace entre les cartes */
 }
 
 #recettes-liste > p {
     color: var(--text-muted);
     font-size: 0.95rem;
+}
+
+/* Pour les tablettes : affichage sur 2 colonnes */
+@media (max-width: 800px) {
+    #recettes-liste {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Pour les téléphones : affichage sur 1 colonne */
+@media (max-width: 480px) {
+    #recettes-liste {
+        grid-template-columns: 1fr;
+    }
 }
 
 /* ── Carte recette ───────────────────────────────────────── */
@@ -334,20 +348,10 @@ section h2 {
 
 /* ── Responsive ──────────────────────────────────────────── */
 
-@media (max-width: 1024px) {
-    #recettes-liste {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
 @media (max-width: 800px) {
     main {
         padding: 2rem 1.25rem 4rem;
         gap: 2.5rem;
-    }
-
-    #recettes-liste {
-        grid-template-columns: repeat(2, 1fr);
     }
 
     #recipe-form {
@@ -375,10 +379,6 @@ section h2 {
 @media (max-width: 480px) {
     nav ul li a {
         font-size: 0.75rem;
-    }
-
-    #recettes-liste {
-        grid-template-columns: 1fr;
     }
 }
 
