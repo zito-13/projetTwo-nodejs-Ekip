@@ -1,0 +1,234 @@
+/* ── Page utilisateurs ───────────────────────────────────── */
+
+.user-page {
+    background-image: url('../images/bgcooklight.png');
+    background-size: contain;
+}
+
+#nav-retour:hover{
+    background-color: white;
+    color:#c0392b;
+}
+
+/* ── Layout principal ────────────────────────────────────── */
+
+main {
+    min-height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 3rem 1.25rem 5rem;
+    gap: 3rem;
+}
+
+/* ── Section formulaire ──────────────────────────────────── */
+
+main section {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 2.5rem 2.25rem;
+    width: 100%;
+    max-width: 520px;
+    box-shadow: var(--shadow-md);
+}
+
+main section h2 {
+    font-family: var(--font-display);
+    font-size: 1.75rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 1.75rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1.5px solid var(--border);
+}
+
+/* ── Formulaire ──────────────────────────────────────────── */
+
+#userForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+#userForm div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+#userForm label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+#userForm input {
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    color: var(--charcoal);
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 0.65rem 0.9rem;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+#userForm input:focus {
+    border-color: var(--terracotta);
+    background: var(--white);
+}
+
+#userForm button[type="submit"] {
+    margin-top: 0.25rem;
+    padding: 0.85rem;
+    background-color: var(--terracotta);
+    color: var(--white);
+    border: none;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+#userForm button[type="submit"]:hover {
+    background-color: var(--terra-dark);
+}
+
+#userForm button[type="submit"]:active {
+    transform: scale(0.98);
+}
+
+/* ── Message retour formulaire ───────────────────────────── */
+
+#formMessage {
+    font-size: 0.875rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--radius-sm);
+    min-height: 1.2rem;
+}
+
+/* ── Liste des utilisateurs ──────────────────────────────── */
+
+#users {
+    width: 100%;
+    max-width: 520px;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.user {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 1.25rem 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.user:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.user h3 {
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--charcoal);
+    margin-bottom: 0.4rem;
+}
+
+.user p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+}
+
+.user p:last-of-type {
+    margin-bottom: 0.85rem;
+}
+
+/* ── Boutons actions ─────────────────────────────────────── */
+
+.actions {
+    display: flex;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+}
+
+.editBtn,
+.deleteBtn {
+    flex: 1;
+    padding: 0.5rem 0.75rem;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.editBtn {
+    background: transparent;
+    border: 1.5px solid var(--terracotta);
+    color: var(--terracotta);
+}
+
+.editBtn:hover {
+    background: var(--terracotta);
+    color: var(--white);
+}
+
+.deleteBtn {
+    background: transparent;
+    border: 1.5px solid #c0392b;
+    color: #c0392b;
+}
+
+.deleteBtn:hover {
+    background: #c0392b;
+    color: var(--white);
+}
+
+.login-footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.login-footer a {
+    color: var(--terracotta);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.login-footer a:hover {
+    color: var(--terra-dark);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+
+@media (max-width: 480px) {
+    main section,
+    #users {
+        max-width: 100%;
+    }
+
+    main section {
+        padding: 2rem 1.5rem;
+    }
+}
