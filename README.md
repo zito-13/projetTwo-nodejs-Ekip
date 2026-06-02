@@ -1,3 +1,8 @@
+
+<img width="2000" height="1600" alt="Design sans titre (2)" src="https://github.com/user-attachments/assets/9904a57b-6bec-47a4-9c79-0719784b3f07" />
+
+
+
 # ZeBig Cooking
 
 Application web de gestion de recettes de cuisine. Elle permet de créer des comptes utilisateurs, d'ajouter des recettes illustrées automatiquement par une image issue de l'API Pexels, et de les consulter dans une interface responsive.
