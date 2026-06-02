@@ -1,10 +1,12 @@
-const API_RECETTES = 'http://localhost:3000/recettes';
-const API_USERS    = 'http://localhost:3000/users';
+const API_RECETTES  = 'http://localhost:3000/recettes';
+const API_USERS     = 'http://localhost:3000/users';
+const PEXELS_KEY = 'FZxpznXTMSKXdYy9HWaGAFkhUlicWWNG5475kqBdhc5M06sX2uxyQ34k';
 
 const form         = document.getElementById('recipe-form');
 const selectAuteur = document.getElementById('auteur');
 const listeSection = document.getElementById('recettes-liste');
 
+// ── Message de retour formulaire ──────────────────────────
 function afficherMessage(texte, succes = true) {
     let msgEl = document.getElementById('form-message');
     if (!msgEl) {
@@ -19,6 +21,36 @@ function afficherMessage(texte, succes = true) {
     setTimeout(() => { msgEl.textContent = ''; }, 4000);
 }
 
+// ── Recherche d'image sur Unsplash ────────────────────────
+// On cherche avec le titre + la catégorie pour plus de pertinence
+async function chercherImage(titre, categorie) {
+    try {
+        const query    = encodeURIComponent(titre + ' ' + categorie + ' food');
+        const url      = `https://api.pexels.com/v1/search?query=${query}&per_page=1&orientation=landscape`;
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': PEXELS_KEY
+            }
+        });
+
+        if (!response.ok) {
+            console.error('Pexels erreur HTTP :', response.status, response.statusText);
+            return null;
+        }
+
+        const data = await response.json();
+
+        if (data.photos && data.photos.length > 0) {
+            return data.photos[0].src.large;
+        }
+        return null;
+    } catch (err) {
+        console.error('Erreur Pexels :', err);
+        return null;
+    }
+}
+
+// ── Chargement des utilisateurs dans le select ────────────
 async function chargerUtilisateurs() {
     if (!selectAuteur) return;
     try {
@@ -40,6 +72,7 @@ async function chargerUtilisateurs() {
     }
 }
 
+// ── Affichage de toutes les recettes ──────────────────────
 async function afficherRecettes() {
     if (!listeSection) return;
     try {
@@ -61,24 +94,31 @@ async function afficherRecettes() {
             card.className  = 'recette-card';
             card.dataset.id = r._id;
 
+            // Image : affiche la photo si disponible, sinon un placeholder
+            const imageHtml = r.image
+                ? `<div class="recette-img"><img src="${r.image}" alt="${r.title}" loading="lazy"></div>`
+                : `<div class="recette-img recette-img--placeholder"><span>Pas d'image</span></div>`;
+
             card.innerHTML = `
-                <h3>${r.title}</h3>
-                <img src="${r.lienimg || 'default-image.jpg'}" alt="Image de ${r.title}" class="recette-image">
-                <p class="recette-auteur">${auteurNom}</p>
-                <p><strong>Categorie :</strong> ${r.categories}</p>
-                <p><strong>Difficulte :</strong> ${r.difficulty}</p>
-                <p>
-                    <strong>Preparation :</strong> ${r.time} min &nbsp;|&nbsp;
-                    <strong>Cuisson :</strong> ${r.timecook} min
-                </p>
-                <details>
-                    <summary>Ingredients</summary>
-                    <p>${r.ingredients}</p>
-                </details>
-                <details>
-                    <summary>Instructions</summary>
-                    <p>${r.instructions}</p>
-                </details>
+                ${imageHtml}
+                <div class="recette-body">
+                    <h3>${r.title}</h3>
+                    <p class="recette-auteur">${auteurNom}</p>
+                    <p><strong>Categorie :</strong> ${r.categories}</p>
+                    <p><strong>Difficulte :</strong> ${r.difficulty}</p>
+                    <p>
+                        <strong>Preparation :</strong> ${r.time} min &nbsp;|&nbsp;
+                        <strong>Cuisson :</strong> ${r.timecook} min
+                    </p>
+                    <details>
+                        <summary>Ingredients</summary>
+                        <p>${r.ingredients}</p>
+                    </details>
+                    <details>
+                        <summary>Instructions</summary>
+                        <p>${r.instructions}</p>
+                    </details>
+                </div>
             `;
 
             listeSection.appendChild(card);
@@ -90,20 +130,23 @@ async function afficherRecettes() {
     }
 }
 
+// ── Soumission du formulaire ──────────────────────────────
 if (form) {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
+        const titre     = document.getElementById('title').value.trim();
+        const categorie = document.getElementById('categories').value.trim();
+
         const recette = {
-            title:        document.getElementById('title').value.trim(),
+            title:        titre,
             ingredients:  document.getElementById('ingredients').value.trim(),
             instructions: document.getElementById('instructions').value.trim(),
             time:         Number(document.getElementById('time').value),
             timecook:     Number(document.getElementById('timecook').value),
             difficulty:   document.getElementById('difficulty').value,
-            categories:   document.getElementById('categories').value.trim(),
+            categories:   categorie,
             auteur:       selectAuteur.value,
-            lienimg:      document.getElementById('lienimg').value.trim()
         };
 
         if (!recette.auteur) {
@@ -117,6 +160,12 @@ if (form) {
         if (champsVides.length > 0) {
             afficherMessage('Veuillez remplir tous les champs.', false);
             return;
+        }
+
+        // Recherche de l'image avant l'envoi
+        const imageUrl = await chercherImage(titre, categorie);
+        if (imageUrl) {
+            recette.image = imageUrl;
         }
 
         try {

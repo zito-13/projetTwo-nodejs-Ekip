@@ -1,60 +1,54 @@
-// ── Import ────────────────────────────────────────────────
-const mongoose = require('mongoose'); // Charge Mongoose pour interagir avec MongoDB
+const mongoose = require('mongoose');
 
-// ── Définition du schéma ──────────────────────────────────
-// Un schéma décrit la structure et les règles de validation d'un document
 const recetteSchema = new mongoose.Schema({
 
     title: {
-        type: String,        // Doit être une chaîne de caractères
-        required: true      // Champ obligatoire — rejeté si absent
+        type: String,
+        required: true
     },
 
     ingredients: {
-        type: String,        // Liste des ingrédients (stockée en texte brut)
-        required: true      // Champ obligatoire
+        type: String,
+        required: true
     },
 
     instructions: {
-        type: String,        // Étapes de préparation (texte libre)
-        required: true      // Champ obligatoire
+        type: String,
+        required: true
     },
 
     time: {
-        type: Number,        // Temps de préparation (en minutes, par convention)
-        required: true      // Champ obligatoire
+        type: Number,
+        required: true
     },
 
     timecook: {
-        type: Number,        // Temps de cuisson (en minutes, par convention)
-        required: true      // Champ obligatoire
+        type: Number,
+        required: true
     },
 
     difficulty: {
-        type: String,        // Niveau de difficulté (ex. "Facile", "Moyen", "Difficile")
-        required: true      // Champ obligatoire
+        type: String,
+        required: true
     },
 
     categories: {
-        type: String,        // Catégorie de la recette (ex. "Dessert", "Entrée")
-        required: true      // Champ obligatoire
+        type: String,
+        required: true
+    },
+
+    image: {
+        type: String,
+        default: null
     },
 
     auteur: {
-        type: mongoose.Schema.Types.ObjectId, // stocke l'_id de l'utilisateur
-        ref: 'User',                          // permet le .populate()
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true
-    },
-    lienimg: {
-        type: String,        // URL de l'image de la recette
-        required: false      // Champ optionnel
     }
 });
 
-// ── Création du modèle ────────────────────────────────────
-// mongoose.model() lie le schéma à la collection "recettes" dans MongoDB
-// (Mongoose met automatiquement le nom en minuscules et au pluriel → "recettes")
 const Recette = mongoose.model('Recette', recetteSchema);
 
-// ── Export ────────────────────────────────────────────────
-module.exports = Recette; // Exporte le modèle pour l'utiliser dans les routes
+module.exports = Recette;
