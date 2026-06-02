@@ -33,7 +33,9 @@ function gererNav() {
         afficher(navUser,        true);
         afficher(navDeconnexion, true);
         afficher(navConnexion,   false);
-        
+        if (navUsername) {
+            navUsername.textContent = user.firstName ? user.firstName + ' ' + user.name : user.email;
+        }
     } else {
         afficher(navAjouter,     false);
         afficher(navUser,        false);
@@ -85,7 +87,7 @@ function creerModal() {
 }
 
 function ouvrirModal(r) {
-    const auteurNom = r.auteur ? r.auteur.username : 'Inconnu';
+    const auteurNom = r.auteur ? r.auteur.firstName + ' ' + r.auteur.name : 'Inconnu';
 
     document.getElementById('modal-title').textContent        = r.title;
     document.getElementById('modal-auteur').textContent       = auteurNom;
@@ -184,7 +186,7 @@ async function chargerUtilisateurs() {
         users.forEach(u => {
             const option       = document.createElement('option');
             option.value       = u._id;
-            option.textContent = u.username;
+            option.textContent = u.firstName + ' ' + u.name;
             selectAuteur.appendChild(option);
         });
     } catch (err) {
@@ -208,7 +210,7 @@ async function afficherRecettes() {
         }
 
         recettes.forEach(r => {
-            const auteurNom = r.auteur ? r.auteur.username : 'Inconnu';
+            const auteurNom = r.auteur ? r.auteur.firstName + ' ' + r.auteur.name : 'Inconnu';
             const card      = document.createElement('article');
             card.className  = 'recette-card';
             card.dataset.id = r._id;
